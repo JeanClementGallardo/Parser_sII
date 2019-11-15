@@ -327,14 +327,50 @@ const displaySheet = (value) =>{
 }
 
 
-
-
 const parsePDB = (text) => {
     let lines = text.split("\n");
     // let idxhelix = [];
     let s3D = lines.reduce(parseLine,{helix:[],sheet:[],atom:[]});
-  
-    let posS2 = new Array(s3D.atom.length);
+    console.log(s3D);
+
+    
+
+    const posHelix = (currentValue, index) =>{
+
+        s3D.helix.map((currentHelix, indexHelix) =>{
+            if(index+1 >= currentHelix['Sequence number of the initial residue'] && index+1 <= currentHelix['Sequence number of the terminal residue']){
+                if(currentValue == undefined){
+                    currentValue = "H" + currentHelix['Serial number of helix'] +"/";
+                } else{
+                    currentValue += "H" + currentHelix['Serial number of helix'] +"/";
+                }
+            }
+            return currentValue; 
+        });
+        return currentValue;
+    }
+
+    // sens : 0 if first strand,1 if  parallel,and -1 if anti-parallel. "Sense of strand"
+
+    const posSheet = (currentValue, index) =>{
+
+        s3D.sheet.map((currentSheet, indexHelix) =>{
+            if(index+1 >= currentSheet['Sequence position of initial residue'] && index+1 <= currentSheet['Sequence position of terminal residue']){
+                if(currentValue == undefined){
+                    currentValue = "S" + currentSheet['Strand'] + "," + currentSheet["Sense of strand"] + "/";
+                } else{
+                    currentValue += "S" + currentSheet['Strand'] + "," + currentSheet["Sense of strand"] + "/";
+                }
+            }
+            return currentValue; 
+        });
+        return currentValue;
+    }
+
+
+    let posS2 = Array.apply(null, Array(Object.keys(s3D.atom).length));
+    let posMod = posS2.map(posHelix);
+    console.log(posMod);
     
     
 

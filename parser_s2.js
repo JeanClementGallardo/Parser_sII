@@ -115,7 +115,6 @@ const cutHELIX = (accu,line) => {
     ];
     let obj = cuts.reduce( (acc,cut) => {
       acc[cut.field] = line.substring(cut.start-1,cut.end).trim();
-      acc[possII][acc['Sequence number of the initial residue']:acc['Sequence number of the terminal residue']]("H" + acc[serial]);
       return acc;
     },
     {});
@@ -281,20 +280,8 @@ const parseLine = (accu,line,i) => {
   return accu ;
 };
 
-const parsePDB = (text) => {
-  let lines = text.split("\n");
-  // let idxhelix = [];
-  let s3D = lines.reduce(parseLine,{helix:[],sheet:[],atom:[],possII=[]});
-  s3D = s3D.reduce(add_sII, s3D);
-  console.log(s3D.atom);
 
-    let helixInfo = s3D.helix.map(getAttrVal);
-    let sheetInfo = s3D.sheet.map(getAttrVal);
 
-    helixInfo.map(displayHelix);
-    sheetInfo.map(displaySheet);
-
-};
 
 const seq_pos = (accu, table) => {
   accu.id = table["Serial number of helix"];
@@ -338,3 +325,23 @@ const displaySheet = (value) =>{
     p.appendChild(text);
     div.appendChild(p);
 }
+
+
+
+
+const parsePDB = (text) => {
+    let lines = text.split("\n");
+    // let idxhelix = [];
+    let s3D = lines.reduce(parseLine,{helix:[],sheet:[],atom:[]});
+  
+    let posS2 = new Array(s3D.atom.length);
+    
+    
+
+
+    let helixInfo = s3D.helix.map(getAttrVal);
+    let sheetInfo = s3D.sheet.map(getAttrVal);
+    helixInfo.map(displayHelix);
+    sheetInfo.map(displaySheet);
+  
+  };

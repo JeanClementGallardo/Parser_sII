@@ -367,9 +367,14 @@ const parsePDB = (text) => {
         return currentValue;
     }
 
+    const oneFucntion = (currentValue, index) =>{
+
+    }
+
 
     let posS2 = Array.apply(null, Array(Object.keys(s3D.atom).length));
     let posMod = posS2.map(posHelix);
+
     console.log(posMod);
     
     

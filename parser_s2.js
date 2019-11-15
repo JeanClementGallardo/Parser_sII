@@ -367,22 +367,30 @@ const parsePDB = (text) => {
         return currentValue;
     }
 
-    const oneFucntion = (currentValue, index) =>{
+    const addS2ToAtom = (currentValue, index) =>{
+        if(posS2helix[index] != undefined || posS2Sheet[index] != undefined){
+            posS2helix[index] != undefined ? currentValue.sII= posS2helix[index] : currentValue.sII=posS2Sheet[index]
+        }
 
     }
 
 
     let posS2 = Array.apply(null, Array(Object.keys(s3D.atom).length));
-    let posMod = posS2.map(posHelix);
+    let posS2helix = posS2.map(posHelix);
+    let posS2Sheet = posS2.map(posSheet);
 
-    console.log(posMod);
+    console.log(posS2helix);
+    console.log(posS2Sheet);
     
-    
+    s3D.atom.map(addS2ToAtom);
+
 
 
     let helixInfo = s3D.helix.map(getAttrVal);
     let sheetInfo = s3D.sheet.map(getAttrVal);
     helixInfo.map(displayHelix);
     sheetInfo.map(displaySheet);
+    console.log("s3D avec s2");
+    console.log(s3D);
   
   };
